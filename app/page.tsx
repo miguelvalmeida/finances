@@ -11,7 +11,7 @@ export default function Page() {
         <div className="bg-primary text-primary-foreground flex size-14 md:size-20 items-center justify-center rounded-2xl">
           <PiggyBank className="size-8 md:size-12" />
         </div>
-        <h1 className="text-3xl font-bold tracking-tight md:text-5xl md:font-extrabold md:tracking-tight">
+        <h1 className="text-3xl font-bold tracking-tight md:text-5xl md:tracking-tight">
           {BRAND_NAME}
         </h1>
       </div>
@@ -19,9 +19,9 @@ export default function Page() {
         Controla as tuas finanças com facilidade
       </h2>
       <p className="mb-8 max-w-2xl text-center text-base md:text-lg text-muted-foreground">
-        Tostões é a aplicação ideal para acompanhar rendimentos, despesas,
-        investimentos, o teu património líquido e muito mais. É simples e
-        segura.
+        Tostões é a aplicação ideal para acompanhar os teus rendimentos e
+        despesas, consultar o teu histórico de transações e muito mais. É
+        simples e seguro.
       </p>
       <div className="mb-10 grid w-full max-w-3xl grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="flex flex-col items-center rounded-xl border bg-card p-6 shadow-sm text-center">

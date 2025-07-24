@@ -19,7 +19,6 @@ export function getNameInitials(name?: string) {
 }
 
 export function getAuthErrorMessage(error: AuthError) {
-  console.log(error);
   switch (error.code) {
     case "user_already_exists":
       return "Já existe uma conta com este email";
