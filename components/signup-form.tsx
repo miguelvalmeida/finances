@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/card";
 import { signup } from "@/lib/actions";
 import { passwordSchema } from "@/lib/validation";
+import { BRAND_NAME, routes } from "@/lib/constants";
 
 import { Alert, AlertDescription } from "./ui/alert";
 import { PasswordTooltip } from "./password-tooltip";
@@ -75,8 +76,8 @@ export function SignUpForm() {
       <CardHeader className="text-center">
         <CardTitle className="text-xl">Cria a tua conta</CardTitle>
         <CardDescription>
-          Preenche os teus dados para criares uma nova conta e começares a gerir
-          as tuas finanças com o Tostões.
+          {`Preenche os teus dados para criares uma nova conta e começares a gerir
+          as tuas finanças com o ${BRAND_NAME}`}
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-6">
@@ -160,7 +161,10 @@ export function SignUpForm() {
         <LoginWithGoogle variant="register" />
         <div className="text-center text-sm">
           Ja tens uma conta?{" "}
-          <Link href="/login" className="underline underline-offset-4">
+          <Link
+            href={routes.signIn.url}
+            className="underline underline-offset-4"
+          >
             Iniciar sessão
           </Link>
         </div>

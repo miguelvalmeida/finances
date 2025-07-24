@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { createClient } from "@/lib/supabase/server";
+import { routes } from "@/lib/constants";
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
@@ -21,13 +22,13 @@ export async function GET(request: Request) {
       const isLocalEnv = process.env.NODE_ENV === "development";
       if (isLocalEnv) {
         // we can be sure that there is no load balancer in between, so no need to watch for X-Forwarded-Host
-        return NextResponse.redirect(`${origin}${next}/dashboard`);
+        return NextResponse.redirect(`${origin}${next}${routes.dashboard.url}`);
       } else if (forwardedHost) {
         return NextResponse.redirect(
-          `https://${forwardedHost}${next}/dashboard`
+          `https://${forwardedHost}${next}${routes.dashboard.url}`
         );
       } else {
-        return NextResponse.redirect(`${origin}${next}/dashboard`);
+        return NextResponse.redirect(`${origin}${next}${routes.dashboard.url}`);
       }
     }
   }

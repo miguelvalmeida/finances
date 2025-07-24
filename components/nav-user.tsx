@@ -18,6 +18,7 @@ import {
 import { createClient } from "@/lib/supabase/server";
 import { signout } from "@/lib/actions";
 import { getNameInitials } from "@/lib/utils";
+import { routes } from "@/lib/constants";
 
 import { ThemeToggle } from "./theme-toggle";
 import { NavUserDropdownMenuContent } from "./nav-user-dropdown-menu-content";
@@ -74,9 +75,9 @@ export async function NavUser() {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem asChild>
-                <Link href="/dashboard/account">
+                <Link href={routes.account.url}>
                   <User />
-                  Conta
+                  {routes.account.name}
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>

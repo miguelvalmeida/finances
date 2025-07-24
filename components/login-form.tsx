@@ -8,6 +8,7 @@ import { AlertCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
 
 import { login } from "@/lib/actions";
+import { routes } from "@/lib/constants";
 
 import { Button } from "./ui/button";
 import {
@@ -108,14 +109,17 @@ export function LoginForm() {
         <div className="grid gap-2 justify-center">
           <div className="text-center text-sm">
             Não tens uma conta?{" "}
-            <Link href="/register" className="underline underline-offset-4">
+            <Link
+              href={routes.signUp.url}
+              className="underline underline-offset-4"
+            >
               Registar
             </Link>
           </div>
           <div className="text-center text-sm">
             Esqueceste-te da palavra-passe?{" "}
             <Link
-              href="/forgot-password"
+              href={routes.forgotPassword.url}
               className="underline underline-offset-4"
             >
               Recuperar

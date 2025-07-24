@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
+import { redirect } from "next/navigation";
+
 import { Logo } from "@/components/logo";
 import { UpdatePasswordForm } from "@/components/update-password-form";
+import { BRAND_NAME, routes } from "@/lib/constants";
 
-import { redirect } from "next/navigation";
+export const metadata: Metadata = {
+  title: `${BRAND_NAME} | ${routes.updatePassword.name}`,
+};
 
 export default async function UpdatePasswordPage({
   searchParams,

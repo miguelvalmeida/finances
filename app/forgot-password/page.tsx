@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
+
 import { ForgotPasswordForm } from "@/components/forgot-password-form";
 import { Logo } from "@/components/logo";
+import { BRAND_NAME, routes } from "@/lib/constants";
+
+export const metadata: Metadata = {
+  title: `${BRAND_NAME} | ${routes.forgotPassword.name}`,
+};
 
 export default function ForgotPasswordPage() {
   return (

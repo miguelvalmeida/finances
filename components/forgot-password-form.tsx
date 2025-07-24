@@ -8,6 +8,7 @@ import { AlertCircle, ArrowLeft, Loader2, Mail } from "lucide-react";
 import Link from "next/link";
 
 import { resetPassword } from "@/lib/actions";
+import { routes } from "@/lib/constants";
 
 import { Button } from "./ui/button";
 import {
@@ -76,7 +77,7 @@ export function ForgotPasswordForm() {
           </div>
           <div className="text-center">
             <Link
-              href="/login"
+              href={routes.signIn.url}
               className="inline-flex items-center gap-2 text-sm underline-offset-4 hover:underline"
             >
               <ArrowLeft size={16} />
@@ -130,7 +131,7 @@ export function ForgotPasswordForm() {
         </Form>
         <div className="text-center">
           <Link
-            href="/login"
+            href={routes.signIn.url}
             className="inline-flex items-center gap-2 text-sm underline-offset-4 hover:underline"
           >
             <ArrowLeft size={16} />

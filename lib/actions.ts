@@ -1,10 +1,10 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
 import type { Provider } from "@supabase/supabase-js";
 
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "./supabase/server";
+import { routes } from "./constants";
 
 export async function login(email: string, password: string) {
   const supabase = await createClient();
@@ -17,7 +17,7 @@ export async function login(email: string, password: string) {
     };
   }
 
-  redirect("/dashboard");
+  redirect(routes.dashboard.url);
 }
 
 async function loginWith(provider: Provider) {
@@ -66,7 +66,7 @@ export async function signup({
     };
   }
 
-  redirect("/dashboard");
+  redirect(routes.dashboard.url);
 }
 
 export async function signout() {
@@ -91,8 +91,6 @@ export async function updateUser({ name }: { name: string }) {
       error: "Ocorreu um erro, por favor tenta novamente",
     };
   }
-
-  revalidatePath("/dashboard/account");
 }
 
 export async function resetPassword(email: string) {

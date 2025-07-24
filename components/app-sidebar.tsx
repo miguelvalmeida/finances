@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Frame, LifeBuoy, Mail, Map, PieChart, PiggyBank } from "lucide-react";
+import { LifeBuoy, Mail, PiggyBank } from "lucide-react";
 import Link from "next/link";
 
 import { NavUser } from "@/components/nav-user";
@@ -14,26 +14,9 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { BRAND_NAME, routes } from "@/lib/constants";
 
-const data = {
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
-  ],
-};
+import { NavItems } from "./nav-items";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -42,17 +25,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <Link href="/dashboard">
+              <Link href={routes.dashboard.url}>
                 <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                   <PiggyBank className="size-4" />
                 </div>
-                <span className="truncate font-medium">Tostões</span>
+                <span className="truncate font-medium">{BRAND_NAME}</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
+        <NavItems />
         <SidebarGroup className="mt-auto">
           <SidebarGroupContent>
             <SidebarMenu>

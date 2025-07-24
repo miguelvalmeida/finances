@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
+
 import { LoginForm } from "@/components/login-form";
 import { Logo } from "@/components/logo";
+import { BRAND_NAME, routes } from "@/lib/constants";
+
+export const metadata: Metadata = {
+  title: `${BRAND_NAME} | ${routes.signIn.name}`,
+};
 
 export default function LoginPage() {
   return (

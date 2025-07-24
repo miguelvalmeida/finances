@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { AlertCircle, Loader2 } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -24,12 +26,11 @@ import {
 } from "@/components/ui/card";
 import { updatePassword } from "@/lib/actions";
 import { passwordSchema } from "@/lib/validation";
+import { routes } from "@/lib/constants";
 
 import { Alert, AlertDescription } from "./ui/alert";
 import { PasswordTooltip } from "./password-tooltip";
 import { PasswordInput } from "./password-input";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 
 const formSchema = z
   .object({
@@ -62,7 +63,7 @@ export function UpdatePasswordForm() {
         form.setError("root", { message: result.error });
       } else {
         toast.success("Palavra-passe atualizada com sucesso!");
-        router.push("/dashboard");
+        router.push(routes.dashboard.url);
       }
     });
   };
