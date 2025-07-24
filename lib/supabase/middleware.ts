@@ -36,22 +36,27 @@ export async function updateSession(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   const isPublic = [
-    "/login",
-    "/register",
-    "/update-password",
-    "/forgot-password",
-  ].some((path) => request.nextUrl.pathname.startsWith(path));
+    routes.signIn.url,
+    routes.signUp.url,
+    routes.updatePassword.url,
+    routes.forgotPassword.url,
+  ].some(
+    (path) =>
+      request.nextUrl.pathname.startsWith(path) ||
+      request.nextUrl.pathname === "/"
+  );
 
   if (!user && !isPublic) {
     const url = request.nextUrl.clone();
-    url.pathname = "/login";
+    url.pathname = routes.signIn.url;
     return NextResponse.redirect(url);
   }
 
   if (
     user &&
-    (request.nextUrl.pathname.startsWith("/login") ||
-      request.nextUrl.pathname.startsWith("/register"))
+    (request.nextUrl.pathname.startsWith(routes.signIn.url) ||
+      request.nextUrl.pathname.startsWith(routes.signUp.url) ||
+      request.nextUrl.pathname === "/")
   ) {
     const url = request.nextUrl.clone();
     url.pathname = routes.dashboard.url;

@@ -5,6 +5,7 @@ import type { Provider } from "@supabase/supabase-js";
 
 import { createClient } from "./supabase/server";
 import { routes } from "./constants";
+import { getAuthErrorMessage } from "./utils";
 
 export async function login(email: string, password: string) {
   const supabase = await createClient();
@@ -12,9 +13,7 @@ export async function login(email: string, password: string) {
   const { error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
-    return {
-      error: "Email ou palavra-passe inválidos",
-    };
+    return { error: getAuthErrorMessage(error) };
   }
 
   redirect(routes.dashboard.url);
@@ -61,9 +60,7 @@ export async function signup({
   });
 
   if (error) {
-    return {
-      error: "Ocorreu um erro, por favor tenta novamente",
-    };
+    return { error: getAuthErrorMessage(error) };
   }
 
   redirect(routes.dashboard.url);
@@ -74,7 +71,7 @@ export async function signout() {
 
   await supabase.auth.signOut();
 
-  redirect("/login");
+  redirect("/");
 }
 
 export async function updateUser({ name }: { name: string }) {
@@ -87,9 +84,7 @@ export async function updateUser({ name }: { name: string }) {
   });
 
   if (error) {
-    return {
-      error: "Ocorreu um erro, por favor tenta novamente",
-    };
+    return { error: getAuthErrorMessage(error) };
   }
 }
 
@@ -101,9 +96,7 @@ export async function resetPassword(email: string) {
   });
 
   if (error) {
-    return {
-      error: "Ocorreu um erro, por favor tenta novamente",
-    };
+    return { error: getAuthErrorMessage(error) };
   }
 }
 
@@ -115,11 +108,6 @@ export async function updatePassword(newPassword: string) {
   });
 
   if (error) {
-    return {
-      error:
-        error.code === "same_password"
-          ? "A nova password deve ser diferente da anterior"
-          : "Ocorreu um erro, por favor tenta novamente",
-    };
+    return { error: getAuthErrorMessage(error) };
   }
 }

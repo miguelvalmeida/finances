@@ -2,13 +2,12 @@
 
 import Link from "next/link";
 import {
-  BanknoteArrowDown,
-  BanknoteArrowUp,
+  ArrowLeftRight,
   ChartLine,
   CreditCard,
   Euro,
-  HandCoins,
   Home,
+  Wallet,
 } from "lucide-react";
 
 import {
@@ -27,8 +26,8 @@ const items = [
     icon: Home,
   },
   {
-    name: routes.budget.name,
-    url: routes.budget.url,
+    name: routes.income.name,
+    url: routes.income.url,
     icon: Euro,
   },
   {
@@ -37,24 +36,19 @@ const items = [
     icon: CreditCard,
   },
   {
-    name: routes.assets.name,
-    url: routes.assets.url,
-    icon: BanknoteArrowUp,
+    name: routes.transactions.name,
+    url: routes.transactions.url,
+    icon: ArrowLeftRight,
   },
   {
-    name: routes.liabilities.name,
-    url: routes.liabilities.url,
-    icon: BanknoteArrowDown,
+    name: routes.netWorth.name,
+    url: routes.netWorth.url,
+    icon: Wallet,
   },
   {
     name: routes.investments.name,
     url: routes.investments.url,
     icon: ChartLine,
-  },
-  {
-    name: routes.netWorth.name,
-    url: routes.netWorth.url,
-    icon: HandCoins,
   },
 ];
 

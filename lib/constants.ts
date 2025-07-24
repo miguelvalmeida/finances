@@ -18,32 +18,28 @@ export const routes = {
     url: "/update-password",
   },
   dashboard: {
-    name: "Dashboard",
+    name: "Resumo",
     url: "/dashboard",
   },
-  budget: {
-    name: "Budget",
-    url: "/dashboard/budget",
+  income: {
+    name: "Rendimentos",
+    url: "/dashboard/income",
   },
   expenses: {
     name: "Despesas",
     url: "/dashboard/expenses",
   },
-  assets: {
-    name: "Ativos",
-    url: "/dashboard/assets",
+  transactions: {
+    name: "Transações",
+    url: "/dashboard/transactions",
   },
-  liabilities: {
-    name: "Passivos",
-    url: "/dashboard/liabilities",
+  netWorth: {
+    name: "Património",
+    url: "/dashboard/net-worth",
   },
   investments: {
     name: "Investimentos",
     url: "/dashboard/investments",
-  },
-  netWorth: {
-    name: "Património líquido",
-    url: "/dashboard/net-worth",
   },
   account: {
     name: "Conta",
