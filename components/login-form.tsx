@@ -2,7 +2,13 @@
 
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
+import z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AlertCircle, Loader2 } from "lucide-react";
+import Link from "next/link";
+
 import { login, loginWithGoogle } from "@/lib/actions";
+
 import { Button } from "./ui/button";
 import {
   Card,
@@ -12,12 +18,9 @@ import {
   CardContent,
 } from "./ui/card";
 import { Input } from "./ui/input";
-import z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormField, FormLabel, FormControl } from "./ui/form";
 import { Alert, AlertDescription } from "./ui/alert";
-import { AlertCircle, Loader2 } from "lucide-react";
-import Link from "next/link";
+import { PasswordInput } from "./password-input";
 
 const formSchema = z.object({
   email: z.email(),
@@ -82,9 +85,9 @@ export function LoginForm() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>Palavra-passe</FormLabel>
                   <FormControl>
-                    <Input type="password" required {...field} />
+                    <PasswordInput required {...field} />
                   </FormControl>
                 </FormItem>
               )}
@@ -111,10 +114,18 @@ export function LoginForm() {
             Iniciar sessão com o Google
           </Button>
         </form>
-        <div className="text-center text-sm">
-          Não tens uma conta?{" "}
-          <Link href="/register" className="underline underline-offset-4">
-            Registar
+        <div className="grid gap-2 justify-center">
+          <div className="text-center text-sm">
+            Não tens uma conta?{" "}
+            <Link href="/register" className="underline underline-offset-4">
+              Registar
+            </Link>
+          </div>
+          <Link
+            href="/forgot-password"
+            className="ml-auto text-sm underline-offset-4 hover:underline"
+          >
+            Esqueceste-te da palavra-passe?
           </Link>
         </div>
       </CardContent>

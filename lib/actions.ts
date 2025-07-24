@@ -94,3 +94,34 @@ export async function updateUser({ name }: { name: string }) {
 
   revalidatePath("/dashboard/account");
 }
+
+export async function resetPassword(email: string) {
+  const supabase = await createClient();
+
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${process.env.APP_BASE_URL}/update-password`,
+  });
+
+  if (error) {
+    return {
+      error: "Ocorreu um erro, por favor tenta novamente",
+    };
+  }
+}
+
+export async function updatePassword(newPassword: string) {
+  const supabase = await createClient();
+
+  const { error } = await supabase.auth.updateUser({
+    password: newPassword,
+  });
+
+  if (error) {
+    return {
+      error:
+        error.code === "same_password"
+          ? "A nova password deve ser diferente da anterior"
+          : "Ocorreu um erro, por favor tenta novamente",
+    };
+  }
+}
