@@ -49,12 +49,14 @@ export function LoginForm() {
   return (
     <Card>
       <CardHeader className="text-center">
-        <CardTitle className="text-xl">Welcome back</CardTitle>
-        <CardDescription>Login to your My Finances account</CardDescription>
+        <CardTitle className="text-xl">Bem vindo de volta</CardTitle>
+        <CardDescription>
+          Introduz os teus dados para acederes à tua conta
+        </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-6">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
             {form.formState.errors.root && (
               <Alert variant="destructive">
                 <AlertCircle size={16} />
@@ -89,13 +91,13 @@ export function LoginForm() {
             />
             <Button type="submit" className="w-full" disabled={isPending}>
               {isPending && <Loader2 className="animate-spin" />}
-              Login
+              Iniciar sessão
             </Button>
           </form>
         </Form>
         <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
           <span className="bg-card text-muted-foreground relative z-10 px-2">
-            Or continue with
+            Ou continua com
           </span>
         </div>
         <form action={loginWithGoogle}>
@@ -106,13 +108,13 @@ export function LoginForm() {
                 fill="currentColor"
               />
             </svg>
-            Login with Google
+            Iniciar sessão com o Google
           </Button>
         </form>
         <div className="text-center text-sm">
-          Don&apos;t have an account?{" "}
-          <Link href="/signup" className="underline underline-offset-4">
-            Sign up
+          Não tens uma conta?{" "}
+          <Link href="/register" className="underline underline-offset-4">
+            Registar
           </Link>
         </div>
       </CardContent>

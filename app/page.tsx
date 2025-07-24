@@ -1,10 +1,5 @@
-import { Header } from "@/components/headers";
+import { redirect } from "next/navigation";
 
-export default function Home() {
-  return (
-    <div>
-      <Header />
-      <h1>My finances</h1>
-    </div>
-  );
+export default function Page() {
+  redirect("/dashboard");
 }

@@ -1,10 +1,10 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-
-import { createClient } from "@/utils/supabase/server";
+import { revalidatePath } from "next/cache";
 import type { Provider } from "@supabase/supabase-js";
+
+import { createClient } from "@/lib/supabase/server";
 
 export async function login(email: string, password: string) {
   const supabase = await createClient();
@@ -13,27 +13,22 @@ export async function login(email: string, password: string) {
 
   if (error) {
     return {
-      error: "Invalid email or password.",
+      error: "Email ou palavra-passe inválidos",
     };
   }
 
-  revalidatePath("/", "layout");
-  redirect("/");
+  redirect("/dashboard");
 }
 
 async function loginWith(provider: Provider) {
   const supabase = await createClient();
 
-  const { data, error } = await supabase.auth.signInWithOAuth({
+  const { data } = await supabase.auth.signInWithOAuth({
     provider,
     options: {
       redirectTo: `${process.env.APP_BASE_URL}/auth/callback`,
     },
   });
-
-  if (error) {
-    console.error(error);
-  }
 
   if (data.url) {
     redirect(data.url);
@@ -44,19 +39,34 @@ export async function loginWithGoogle() {
   return await loginWith("google");
 }
 
-export async function signup(email: string, password: string) {
+export async function signup({
+  name,
+  email,
+  password,
+}: {
+  name: string;
+  email: string;
+  password: string;
+}) {
   const supabase = await createClient();
 
-  const { error } = await supabase.auth.signUp({ email, password });
+  const { error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        full_name: name,
+      },
+    },
+  });
 
   if (error) {
     return {
-      error: "Something went wrong, please try again.",
+      error: "Ocorreu um erro, por favor tenta novamente",
     };
   }
 
-  revalidatePath("/", "layout");
-  redirect("/");
+  redirect("/dashboard");
 }
 
 export async function signout() {
@@ -64,6 +74,23 @@ export async function signout() {
 
   await supabase.auth.signOut();
 
-  revalidatePath("/", "layout");
   redirect("/login");
+}
+
+export async function updateUser({ name }: { name: string }) {
+  const supabase = await createClient();
+
+  const { error } = await supabase.auth.updateUser({
+    data: {
+      full_name: name,
+    },
+  });
+
+  if (error) {
+    return {
+      error: "Ocorreu um erro, por favor tenta novamente",
+    };
+  }
+
+  revalidatePath("/dashboard/account");
 }

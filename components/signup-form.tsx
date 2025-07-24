@@ -30,25 +30,26 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 const formSchema = z
   .object({
+    name: z.string().min(1, { error: "Please enter a name" }),
     email: z.email({
-      message: "Please enter a valid email address.",
+      error: "Insere um endereço de email válido.",
     }),
     password: z
       .string()
       .min(8, {
-        message: "Password must be at least 8 characters long.",
+        error: "A palavra-passe deve ter pelo menos 8 caracteres.",
       })
       .regex(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
         {
-          message:
-            "Password must contain at least one lowercase letter, one uppercase letter, one digit, and one symbol.",
+          error:
+            "A palavra-passe deve conter pelo menos uma letra minúscula, uma letra maiúscula, um número e um símbolo.",
         }
       ),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
+    error: "As palavras-passe não coincidem",
     path: ["confirmPassword"],
   });
 
@@ -58,6 +59,7 @@ export function SignUpForm() {
   const form = useForm<SignupFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      name: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -67,22 +69,26 @@ export function SignUpForm() {
 
   const onSubmit = async (data: SignupFormData) => {
     startTransition(async () => {
-      const result = await signup(data.email, data.password);
+      const result = await signup(data);
 
       if (result?.error) {
         form.setError("root", { message: result.error });
       }
     });
   };
+
   return (
     <Card>
       <CardHeader className="text-center">
-        <CardTitle className="text-xl">Create your account</CardTitle>
-        <CardDescription>Sign up for your My Finances account</CardDescription>
+        <CardTitle className="text-xl">Cria a tua conta</CardTitle>
+        <CardDescription>
+          Preenche os teus dados para criares uma nova conta e começares a gerir
+          as tuas finanças com o Tostões.
+        </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-6">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
             {form.formState.errors.root && (
               <Alert variant="destructive">
                 <AlertCircle size={16} />
@@ -93,6 +99,19 @@ export function SignUpForm() {
             )}
             <FormField
               control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nome</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Insere o teu nome" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="email"
               render={({ field }) => (
                 <FormItem>
@@ -100,7 +119,7 @@ export function SignUpForm() {
                   <FormControl>
                     <Input
                       type="email"
-                      placeholder="Enter your email"
+                      placeholder="Insere o teu email"
                       {...field}
                     />
                   </FormControl>
@@ -124,14 +143,14 @@ export function SignUpForm() {
                         className="max-w-xs space-y-1"
                       >
                         <p className="font-medium text-xs">
-                          Password requirements:
+                          Requisitos da palavra-passe:
                         </p>
                         <ul className="text-xs space-y-0.5">
-                          <li>• Minimum 8 characters long</li>
-                          <li>• At least one lowercase letter</li>
-                          <li>• At least one uppercase letter</li>
-                          <li>• At least one digit</li>
-                          <li>• At least one symbol (@$!%*?&)</li>
+                          <li>• Mínimo de 8 caracteres</li>
+                          <li>• Pelo menos uma letra minúscula</li>
+                          <li>• Pelo menos uma letra maiúscula</li>
+                          <li>• Pelo menos um número</li>
+                          <li>• Pelo menos um símbolo (@$!%*?&)</li>
                         </ul>
                       </TooltipContent>
                     </Tooltip>
@@ -139,7 +158,7 @@ export function SignUpForm() {
                   <FormControl>
                     <Input
                       type="password"
-                      placeholder="Create a password"
+                      placeholder="Insere uma password"
                       {...field}
                     />
                   </FormControl>
@@ -152,11 +171,11 @@ export function SignUpForm() {
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Confirm password</FormLabel>
+                  <FormLabel>Confirmar password</FormLabel>
                   <FormControl>
                     <Input
                       type="password"
-                      placeholder="Confirm your password"
+                      placeholder="Confirma a password"
                       {...field}
                     />
                   </FormControl>
@@ -166,14 +185,14 @@ export function SignUpForm() {
             />
             <Button type="submit" className="w-full" disabled={isPending}>
               {isPending && <Loader2 className="animate-spin" />}
-              Sign up
+              Registar
             </Button>
           </form>
         </Form>
 
         <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
           <span className="bg-card text-muted-foreground relative z-10 px-2">
-            Or continue with
+            Ou continua com
           </span>
         </div>
         <form action={loginWithGoogle}>
@@ -184,13 +203,13 @@ export function SignUpForm() {
                 fill="currentColor"
               />
             </svg>
-            Sign up with Google
+            Registar com o Google
           </Button>
         </form>
         <div className="text-center text-sm">
-          Already have an account?{" "}
+          Ja tens uma conta?{" "}
           <Link href="/login" className="underline underline-offset-4">
-            Sign in
+            Iniciar sessão
           </Link>
         </div>
       </CardContent>
