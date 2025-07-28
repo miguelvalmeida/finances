@@ -71,7 +71,7 @@ export function UpdatePasswordForm() {
   return (
     <Card>
       <CardHeader className="text-center">
-        <CardTitle className="text-xl">Redefinir palavra-passe</CardTitle>
+        <CardTitle className="text-xl">Alterar palavra-passe</CardTitle>
         <CardDescription>
           Cria uma nova palavra-passe segura para a tua conta
         </CardDescription>

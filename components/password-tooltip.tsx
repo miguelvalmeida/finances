@@ -2,7 +2,7 @@
 
 import { HelpCircle } from "lucide-react";
 
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useIsMobileOrTablet } from "@/hooks/use-media-query";
 
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import {
@@ -26,9 +26,9 @@ function PasswordRequirementsList() {
 }
 
 export function PasswordTooltip() {
-  const isMobile = useIsMobile();
+  const isMobileOrTablet = useIsMobileOrTablet();
 
-  if (isMobile) {
+  if (isMobileOrTablet) {
     return (
       <Drawer>
         <DrawerTrigger>

@@ -1,11 +1,13 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import type { Provider } from "@supabase/supabase-js";
 
 import { createClient } from "./supabase/server";
 import { routes } from "./constants";
 import { getAuthErrorMessage } from "./utils";
+import type { ExpenseRecurrence, ExpenseStatus } from "./types";
 
 export async function login(email: string, password: string) {
   const supabase = await createClient();
@@ -110,4 +112,79 @@ export async function updatePassword(newPassword: string) {
   if (error) {
     return { error: getAuthErrorMessage(error) };
   }
+}
+
+type Expense = {
+  name: string;
+  amount: string;
+  recurrence: ExpenseRecurrence;
+  date: string;
+  status: ExpenseStatus;
+};
+
+export async function addExpense(expense: Expense) {
+  const supabase = await createClient();
+
+  const userId = (await supabase.auth.getUser()).data.user?.id;
+
+  const { error } = await supabase
+    .from("expenses")
+    .insert([
+      {
+        user_id: userId!,
+        name: expense.name,
+        amount: Number(expense.amount),
+        date: expense.date,
+        recurrence: expense.recurrence,
+        status: expense.status,
+      },
+    ])
+    .select();
+
+  if (error) {
+    return {
+      error: "Ocorreu um erro ao adicionar a despesa. Tenta novamente.",
+    };
+  }
+
+  revalidatePath(routes.expenses.url);
+}
+
+export async function editExpense(id: number, expense: Expense) {
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .from("expenses")
+    .update({
+      name: expense.name,
+      amount: Number(expense.amount),
+      date: expense.date,
+      recurrence: expense.recurrence,
+      status: expense.status,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", id)
+    .select();
+
+  if (error) {
+    return {
+      error: "Ocorreu um erro ao editar a despesa. Tenta novamente.",
+    };
+  }
+
+  revalidatePath(routes.expenses.url);
+}
+
+export async function deleteExpense(id: number) {
+  const supabase = await createClient();
+
+  const { error } = await supabase.from("expenses").delete().eq("id", id);
+
+  if (error) {
+    return {
+      error: "Ocorreu um erro ao apagar a despesa. Tenta novamente.",
+    };
+  }
+
+  revalidatePath(routes.expenses.url);
 }

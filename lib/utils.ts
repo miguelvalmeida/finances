@@ -2,6 +2,8 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import type { AuthError } from "@supabase/supabase-js";
 
+import type { ExpenseRecurrence, ExpenseStatus } from "./types";
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -28,5 +30,35 @@ export function getAuthErrorMessage(error: AuthError) {
       return "Email ou palavra-passe inválidos";
     default:
       return "Ocorreu um erro, por favor tenta novamente";
+  }
+}
+
+export function formatExpenseRecurrence(recurrence: ExpenseRecurrence) {
+  switch (recurrence) {
+    case "monthly":
+      return "Mensal";
+    case "annual":
+      return "Anual";
+    case "one-time":
+      return "Pontual";
+    default:
+      return recurrence;
+  }
+}
+
+export function formatExpenseStatus(status: ExpenseStatus) {
+  switch (status) {
+    case "active":
+      return "Ativo";
+    case "inactive":
+      return "Inativo";
+    case "cancelled":
+      return "Cancelado";
+    case "pending":
+      return "Pendente";
+    case "paid":
+      return "Pago";
+    default:
+      return status;
   }
 }

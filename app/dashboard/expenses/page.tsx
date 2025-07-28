@@ -1,16 +1,23 @@
 import type { Metadata } from "next";
 
 import { BRAND_NAME, routes } from "@/lib/constants";
+import { ExpensesOverview } from "@/components/expenses-overview";
+import { ExpensesTabs } from "@/components/expenses-tabs";
+import { getExpenses } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: `${BRAND_NAME} | ${routes.expenses.name}`,
 };
 
-export default function ExpensesPage() {
+// TODO: Add loading file
+
+export default async function ExpensesPage() {
+  const expenses = await getExpenses();
+
   return (
-    <div className="flex flex-col items-center justify-center h-full">
-      <span className="text-7xl mb-2">🏗️</span>
-      <span className="text-3xl font-semibold">WIP</span>
-    </div>
+    <>
+      <ExpensesOverview expenses={expenses} />
+      <ExpensesTabs expenses={expenses} />
+    </>
   );
 }

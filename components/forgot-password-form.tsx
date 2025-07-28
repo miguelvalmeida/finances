@@ -72,7 +72,7 @@ export function ForgotPasswordForm() {
                 verifica também a pasta de spam ou promoções).
               </li>
               <li>2. Abre o email e clica no link de recuperação.</li>
-              <li>3. Segue as instruções para redefinir a tua password.</li>
+              <li>3. Segue as instruções para alterar a tua palavra-passe.</li>
             </ul>
           </div>
           <div className="text-center">
@@ -96,7 +96,7 @@ export function ForgotPasswordForm() {
           Esqueceste-te da palavra-passe?
         </CardTitle>
         <CardDescription>
-          Insere o teu email e enviaremos instruções para redefinires a tua
+          Insere o teu email e enviaremos instruções para alterares a tua
           palavra-passe.
         </CardDescription>
       </CardHeader>
@@ -119,7 +119,7 @@ export function ForgotPasswordForm() {
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input type="email" required {...field} />
-                  </FormControl>
+                  </FormControl>  
                 </FormItem>
               )}
             />

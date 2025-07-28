@@ -16,5 +16,7 @@ function getTitleFromPath(path: string) {
 export function PageTitle() {
   const pathname = usePathname();
 
-  return <span className="font-bold">{getTitleFromPath(pathname)}</span>;
+  return (
+    <h1 className="text-base font-medium">{getTitleFromPath(pathname)}</h1>
+  );
 }

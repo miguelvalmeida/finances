@@ -46,3 +46,13 @@ export const routes = {
     url: "/dashboard/account",
   },
 } as const;
+
+export const EXPENSE_RECURRENCES = ["monthly", "annual", "one-time"] as const;
+
+export const EXPENSE_STATUS = [
+  "active",
+  "inactive",
+  "paid",
+  "pending",
+  "cancelled",
+] as const;
