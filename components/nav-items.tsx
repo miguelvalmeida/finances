@@ -15,6 +15,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
 import { routes } from "@/lib/constants";
@@ -54,6 +55,7 @@ const items = [
 
 export function NavItems() {
   const pathname = usePathname();
+  const { setOpenMobile } = useSidebar();
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
@@ -61,7 +63,7 @@ export function NavItems() {
         {items.map((item) => (
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton isActive={pathname === item.url} asChild>
-              <Link href={item.url}>
+              <Link href={item.url} onClick={() => setOpenMobile(false)}>
                 <item.icon />
                 {item.name}
               </Link>

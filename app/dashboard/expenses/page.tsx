@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 
 import { BRAND_NAME, routes } from "@/lib/constants";
 import { ExpensesOverview } from "@/components/expenses-overview";
-import { ExpensesTabs } from "@/components/expenses-tabs";
 import { getExpenses } from "@/lib/data";
+import { DataTable } from "@/components/data-table";
+import { expenseColumns } from "@/components/expense-columns";
 
 export const metadata: Metadata = {
   title: `${BRAND_NAME} | ${routes.expenses.name}`,
@@ -17,7 +18,7 @@ export default async function ExpensesPage() {
   return (
     <>
       <ExpensesOverview expenses={expenses} />
-      <ExpensesTabs expenses={expenses} />
+      <DataTable columns={expenseColumns} data={expenses ?? []} />
     </>
   );
 }

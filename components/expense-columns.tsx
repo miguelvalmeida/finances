@@ -1,15 +1,14 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
 
-import type { Expense, ExpenseStatus } from "@/lib/types";
-import { formatExpenseStatus } from "@/lib/utils";
+import type { Expense, ExpenseRecurrence, ExpenseStatus } from "@/lib/types";
+import { formatExpenseRecurrence, formatExpenseStatus } from "@/lib/utils";
 
 import { Badge } from "./ui/badge";
 import { EditExpenseDialog } from "./edit-expense-dialog";
 import { DeleteExpenseAlert } from "./delete-expense-alert";
-import { Button } from "./ui/button";
+import { DataTableColumnHeader } from "./data-table-column-header";
 
 export type ExpenseColumns = {
   id: string;
@@ -25,17 +24,9 @@ export const expenseColumns: ColumnDef<Expense>[] = [
   },
   {
     accessorKey: "amount",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Montante
-          <ArrowUpDown size={16} />
-        </Button>
-      );
-    },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Montante" />
+    ),
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("amount"));
 
@@ -49,7 +40,9 @@ export const expenseColumns: ColumnDef<Expense>[] = [
   },
   {
     accessorKey: "date",
-    header: "Data",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Data" />
+    ),
     cell: ({ row }) => {
       const date: string = row.getValue("date");
 
@@ -59,8 +52,26 @@ export const expenseColumns: ColumnDef<Expense>[] = [
     },
   },
   {
+    accessorKey: "recurrence",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Tipo" />
+    ),
+    cell: ({ row }) => {
+      const recurrence: ExpenseRecurrence = row.getValue("recurrence");
+
+      return (
+        <Badge variant="outline">{formatExpenseRecurrence(recurrence)}</Badge>
+      );
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
+  },
+  {
     accessorKey: "status",
-    header: "Estado",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Estado" />
+    ),
     cell: ({ row }) => {
       const status: ExpenseStatus = row.getValue("status");
 
@@ -75,6 +86,9 @@ export const expenseColumns: ColumnDef<Expense>[] = [
       return (
         <Badge className={colors[status]}>{formatExpenseStatus(status)}</Badge>
       );
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
     },
   },
   {

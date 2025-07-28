@@ -62,14 +62,14 @@ export function AddExpenseDialog() {
         <DrawerTrigger asChild>
           <Button>
             <Plus size={16} />
-            <span className="sr-only md:flex">Adicionar despesa</span>
+            Adicionar despesa
           </Button>
         </DrawerTrigger>
         <DrawerContent>
           <DrawerHeader>
             <DrawerTitle>Adicionar despesa</DrawerTitle>
             <DrawerDescription>
-              Adiciona uma nova despesa ao teu orçamento
+              Adiciona uma nova despesa para acompanhar e gerir os teus gastos
             </DrawerDescription>
           </DrawerHeader>
           <div className="p-4">
@@ -111,7 +111,7 @@ export function AddExpenseDialog() {
         <DialogHeader>
           <DialogTitle>Adicionar despesa</DialogTitle>
           <DialogDescription>
-            Adiciona uma nova despesa ao teu orçamento
+            Adiciona uma nova despesa para acompanhar e gerir os teus gastos
           </DialogDescription>
         </DialogHeader>
         <ExpenseForm

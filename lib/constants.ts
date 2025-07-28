@@ -49,7 +49,7 @@ export const routes = {
 
 export const EXPENSE_RECURRENCES = ["monthly", "annual", "one-time"] as const;
 
-export const EXPENSE_STATUS = [
+export const EXPENSE_STATUSES = [
   "active",
   "inactive",
   "paid",

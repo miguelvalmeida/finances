@@ -4,7 +4,7 @@ import z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { EXPENSE_RECURRENCES, EXPENSE_STATUS } from "@/lib/constants";
+import { EXPENSE_RECURRENCES, EXPENSE_STATUSES } from "@/lib/constants";
 import { formatExpenseRecurrence, formatExpenseStatus } from "@/lib/utils";
 
 import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form";
@@ -27,7 +27,7 @@ const formSchema = z.object({
       return !isNaN(num) && num > 0;
     }),
   date: z.string().min(1),
-  status: z.enum(EXPENSE_STATUS),
+  status: z.enum(EXPENSE_STATUSES),
   recurrence: z.enum(EXPENSE_RECURRENCES),
 });
 
@@ -133,7 +133,7 @@ export function ExpenseForm({ variant, defaultValues, onSubmit }: Props) {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {EXPENSE_STATUS.map((status) => (
+                    {EXPENSE_STATUSES.map((status) => (
                       <SelectItem key={status} value={status}>
                         {formatExpenseStatus(status)}
                       </SelectItem>
