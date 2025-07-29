@@ -24,7 +24,7 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
             <PageTitle />
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4 md:py-6 md:gap-6">
+        <div className="flex flex-1 flex-col p-4 md:py-6">
           {children}
         </div>
       </SidebarInset>

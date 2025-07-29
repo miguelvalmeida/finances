@@ -43,7 +43,7 @@ export function EditExpenseDialog({ expense }: Props) {
   const formDefaultValues: ExpenseFormData = {
     name: expense.name,
     amount: String(expense.amount),
-    date: expense.date,
+    date: new Date(expense.date),
     status: expense.status,
     recurrence: expense.recurrence,
   };
@@ -77,28 +77,30 @@ export function EditExpenseDialog({ expense }: Props) {
               Faz alterações aos detalhes da tua despesa
             </DrawerDescription>
           </DrawerHeader>
-          <div className="p-4">
-            <ExpenseForm
-              variant="edit"
-              defaultValues={formDefaultValues}
-              onSubmit={handleSubmit}
-            />
-          </div>
-          <DrawerFooter>
-            <Button type="submit" form="edit-expense" disabled={isPending}>
-              {isPending && <Loader2 className="animate-spin" />}
-              Editar
-            </Button>
-            <DrawerClose asChild>
-              <Button
-                variant="outline"
-                type="button"
-                onClick={() => setIsOpen(false)}
-              >
-                Cancelar
+          <div className="overflow-y-auto">
+            <div className="p-4">
+              <ExpenseForm
+                variant="edit"
+                defaultValues={formDefaultValues}
+                onSubmit={handleSubmit}
+              />
+            </div>
+            <DrawerFooter>
+              <Button type="submit" form="edit-expense" disabled={isPending}>
+                {isPending && <Loader2 className="animate-spin" />}
+                Editar
               </Button>
-            </DrawerClose>
-          </DrawerFooter>
+              <DrawerClose asChild>
+                <Button
+                  variant="outline"
+                  type="button"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Cancelar
+                </Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </div>
         </DrawerContent>
       </Drawer>
     );

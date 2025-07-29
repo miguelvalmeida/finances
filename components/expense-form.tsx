@@ -3,6 +3,8 @@
 import z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
 
 import { EXPENSE_RECURRENCES, EXPENSE_STATUSES } from "@/lib/constants";
 import { formatExpenseRecurrence, formatExpenseStatus } from "@/lib/utils";
@@ -16,6 +18,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { Button } from "./ui/button";
+import { Calendar } from "./ui/calendar";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -26,7 +31,7 @@ const formSchema = z.object({
       const num = parseFloat(val);
       return !isNaN(num) && num > 0;
     }),
-  date: z.string().min(1),
+  date: z.date(),
   status: z.enum(EXPENSE_STATUSES),
   recurrence: z.enum(EXPENSE_RECURRENCES),
 });
@@ -111,9 +116,31 @@ export function ExpenseForm({ variant, defaultValues, onSubmit }: Props) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Data</FormLabel>
-                <FormControl>
-                  <Input type="date" {...field} />
-                </FormControl>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button variant="outline" className="font-normal">
+                        {field.value ? (
+                          format(field.value, "dd/MM/yyyy")
+                        ) : (
+                          <span>Escolhe uma data</span>
+                        )}
+                        <CalendarIcon
+                          size={16}
+                          className="ml-auto opacity-50"
+                        />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                      captionLayout="dropdown"
+                    />
+                  </PopoverContent>
+                </Popover>
               </FormItem>
             )}
           />

@@ -16,9 +16,9 @@ export default async function ExpensesPage() {
   const expenses = await getExpenses();
 
   return (
-    <>
+    <div className="grid gap-4 md:gap-6">
       <ExpensesOverview expenses={expenses} />
       <DataTable columns={expenseColumns} data={expenses ?? []} />
-    </>
+    </div>
   );
 }

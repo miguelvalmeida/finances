@@ -38,7 +38,7 @@ export function AddExpenseDialog() {
   const formDefaultValues: ExpenseFormData = {
     name: "",
     amount: "",
-    date: new Date().toISOString().split("T")[0],
+    date: new Date(),
     status: "active",
     recurrence: "monthly",
   };
@@ -72,28 +72,30 @@ export function AddExpenseDialog() {
               Adiciona uma nova despesa para acompanhar e gerir os teus gastos
             </DrawerDescription>
           </DrawerHeader>
-          <div className="p-4">
-            <ExpenseForm
-              variant="add"
-              defaultValues={formDefaultValues}
-              onSubmit={handleSubmit}
-            />
-          </div>
-          <DrawerFooter>
-            <Button type="submit" form="add-expense" disabled={isPending}>
-              {isPending && <Loader2 className="animate-spin" />}
-              Adicionar
-            </Button>
-            <DrawerClose asChild>
-              <Button
-                variant="outline"
-                type="button"
-                onClick={() => setIsOpen(false)}
-              >
-                Cancelar
+          <div className="overflow-y-auto">
+            <div className="p-4">
+              <ExpenseForm
+                variant="add"
+                defaultValues={formDefaultValues}
+                onSubmit={handleSubmit}
+              />
+            </div>
+            <DrawerFooter>
+              <Button type="submit" form="add-expense" disabled={isPending}>
+                {isPending && <Loader2 className="animate-spin" />}
+                Adicionar
               </Button>
-            </DrawerClose>
-          </DrawerFooter>
+              <DrawerClose asChild>
+                <Button
+                  variant="outline"
+                  type="button"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Cancelar
+                </Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </div>
         </DrawerContent>
       </Drawer>
     );

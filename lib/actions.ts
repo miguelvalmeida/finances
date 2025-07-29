@@ -118,7 +118,7 @@ type Expense = {
   name: string;
   amount: string;
   recurrence: ExpenseRecurrence;
-  date: string;
+  date: Date;
   status: ExpenseStatus;
 };
 
@@ -134,7 +134,7 @@ export async function addExpense(expense: Expense) {
         user_id: userId!,
         name: expense.name,
         amount: Number(expense.amount),
-        date: expense.date,
+        date: expense.date.toISOString(),
         recurrence: expense.recurrence,
         status: expense.status,
       },
@@ -158,7 +158,7 @@ export async function editExpense(id: number, expense: Expense) {
     .update({
       name: expense.name,
       amount: Number(expense.amount),
-      date: expense.date,
+      date: expense.date.toISOString(),
       recurrence: expense.recurrence,
       status: expense.status,
       updated_at: new Date().toISOString(),

@@ -1,22 +1,12 @@
 import * as React from "react";
 import type { Column } from "@tanstack/react-table";
-import { Check, PlusCircle } from "lucide-react";
-
-import { cn } from "@/lib/utils";
+import { PlusCircle } from "lucide-react";
 
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-} from "./ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Separator } from "./ui/separator";
+import { Checkbox } from "./ui/checkbox";
 
 interface DataTableFacetedFilterProps<TData, TValue> {
   column?: Column<TData, TValue>;
@@ -77,65 +67,38 @@ export function DataTableFacetedFilter<TData, TValue>({
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0" align="start">
-        <Command>
-          <CommandInput placeholder={title} />
-          <CommandList>
-            <CommandEmpty>Sem resultados encontrados.</CommandEmpty>
-            <CommandGroup>
-              {options.map((option) => {
-                const isSelected = selectedValues.has(option.value);
-                return (
-                  <CommandItem
-                    key={option.value}
-                    onSelect={() => {
-                      if (isSelected) {
-                        selectedValues.delete(option.value);
-                      } else {
-                        selectedValues.add(option.value);
-                      }
-                      const filterValues = Array.from(selectedValues);
-                      column?.setFilterValue(
-                        filterValues.length ? filterValues : undefined
-                      );
-                    }}
-                  >
-                    <div
-                      className={cn(
-                        "flex size-4 items-center justify-center rounded-[4px] border",
-                        isSelected
-                          ? "bg-primary border-primary text-primary-foreground"
-                          : "border-input [&_svg]:invisible"
-                      )}
-                    >
-                      <Check className="text-primary-foreground size-3.5" />
-                    </div>
-                    {option.icon && (
-                      <option.icon className="text-muted-foreground size-4" />
-                    )}
-                    <span>{option.label}</span>
-                    <span className="text-muted-foreground ml-auto flex size-4 items-center justify-center font-mono text-xs">
-                      {facets?.get(option.value) ?? 0}
-                    </span>
-                  </CommandItem>
-                );
-              })}
-            </CommandGroup>
-            {selectedValues.size > 0 && (
-              <>
-                <CommandSeparator />
-                <CommandGroup>
-                  <CommandItem
-                    onSelect={() => column?.setFilterValue(undefined)}
-                    className="justify-center text-center"
-                  >
-                    Limpar filtros
-                  </CommandItem>
-                </CommandGroup>
-              </>
-            )}
-          </CommandList>
-        </Command>
+      <PopoverContent className="w-[200px] p-2 gap-1" align="start">
+        {options.map((option) => {
+          const isChecked = selectedValues.has(option.value);
+          return (
+            <label
+              key={option.value}
+              className="flex items-center gap-2 cursor-pointer px-2 py-1.5 rounded hover:bg-accent"
+            >
+              <Checkbox
+                checked={isChecked}
+                onCheckedChange={() => {
+                  if (isChecked) {
+                    selectedValues.delete(option.value);
+                  } else {
+                    selectedValues.add(option.value);
+                  }
+                  const filterValues = Array.from(selectedValues);
+                  column?.setFilterValue(
+                    filterValues.length ? filterValues : undefined
+                  );
+                }}
+              />
+              {option.icon && (
+                <option.icon className="text-muted-foreground size-4" />
+              )}
+              <span className="text-sm">{option.label}</span>
+              <span className="text-muted-foreground ml-auto flex size-4 items-center justify-center font-mono text-xs">
+                {facets?.get(option.value) ?? 0}
+              </span>
+            </label>
+          );
+        })}
       </PopoverContent>
     </Popover>
   );

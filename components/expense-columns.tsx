@@ -1,6 +1,7 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
+import { format } from "date-fns";
 
 import type { Expense, ExpenseRecurrence, ExpenseStatus } from "@/lib/types";
 import { formatExpenseRecurrence, formatExpenseStatus } from "@/lib/utils";
@@ -21,6 +22,7 @@ export const expenseColumns: ColumnDef<Expense>[] = [
   {
     accessorKey: "name",
     header: "Nome",
+    cell: ({ row }) => <div className="lg:w-52">{row.getValue("name")}</div>,
   },
   {
     accessorKey: "amount",
@@ -46,7 +48,7 @@ export const expenseColumns: ColumnDef<Expense>[] = [
     cell: ({ row }) => {
       const date: string = row.getValue("date");
 
-      const formatted = new Date(date).toLocaleDateString("pt-PT");
+      const formatted = format(date, "dd/MM/yyyy");
 
       return <>{formatted}</>;
     },
@@ -97,7 +99,7 @@ export const expenseColumns: ColumnDef<Expense>[] = [
       const expense = row.original;
 
       return (
-        <div className="text-right">
+        <div>
           <EditExpenseDialog expense={expense} />
           <DeleteExpenseAlert expense={expense} />
         </div>

@@ -18,15 +18,7 @@ export default async function AccountPage() {
   }
 
   return (
-    <div className="space-y-6 max-w-2xl">
-      <div className="space-y-1">
-        <h1 className="text-3xl font-bold tracking-tight">
-          Definições da conta
-        </h1>
-        <p className="text-muted-foreground">
-          Gere a informação e preferências da tua conta
-        </p>
-      </div>
+    <div className="grid gap-4 md:gap-6 max-w-2xl">
       <EditProfileForm userData={data.user} />
       <EditPasswordForm />
     </div>
