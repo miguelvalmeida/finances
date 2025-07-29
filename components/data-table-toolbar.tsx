@@ -68,9 +68,7 @@ export function DataTableToolbar<TData>({
           )}
         </div>
       </div>
-      <div>
-        <AddExpenseDialog />
-      </div>
+      <AddExpenseDialog />
     </div>
   );
 }
