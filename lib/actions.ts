@@ -27,6 +27,7 @@ async function loginWith(provider: Provider) {
   const { data } = await supabase.auth.signInWithOAuth({
     provider,
     options: {
+      // TODO: need to change this to get url dynamically
       redirectTo: `${process.env.APP_BASE_URL}/auth/callback`,
     },
   });
@@ -94,6 +95,7 @@ export async function resetPassword(email: string) {
   const supabase = await createClient();
 
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    // TODO: need to change this to get url dynamically
     redirectTo: `${process.env.APP_BASE_URL}/update-password`,
   });
 
@@ -114,7 +116,26 @@ export async function updatePassword(newPassword: string) {
   }
 }
 
-type Expense = {
+export async function deleteUser() {
+  const supabase = await createClient();
+
+  const userId = (await supabase.auth.getUser()).data.user?.id;
+
+  const { error } = await supabase.functions.invoke("delete-user", {
+    method: "POST",
+    body: { userId },
+  });
+
+  if (error) {
+    return {
+      error: "Ocorreu um erro ao eliminar a tua conta. Tenta novamente.",
+    };
+  }
+
+  await signout();
+}
+
+type ExpenseFormData = {
   name: string;
   amount: string;
   recurrence: ExpenseRecurrence;
@@ -122,7 +143,7 @@ type Expense = {
   status: ExpenseStatus;
 };
 
-export async function addExpense(expense: Expense) {
+export async function addExpense(expense: ExpenseFormData) {
   const supabase = await createClient();
 
   const userId = (await supabase.auth.getUser()).data.user?.id;
@@ -150,7 +171,7 @@ export async function addExpense(expense: Expense) {
   revalidatePath(routes.expenses.url);
 }
 
-export async function editExpense(id: number, expense: Expense) {
+export async function editExpense(id: number, expense: ExpenseFormData) {
   const supabase = await createClient();
 
   const { error } = await supabase

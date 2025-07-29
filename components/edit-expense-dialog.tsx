@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Loader2, Pencil } from "lucide-react";
+import { Pencil } from "lucide-react";
 import { toast } from "sonner";
 
 import { editExpense } from "@/lib/actions";
@@ -86,8 +86,7 @@ export function EditExpenseDialog({ expense }: Props) {
               />
             </div>
             <DrawerFooter>
-              <Button type="submit" form="edit-expense" disabled={isPending}>
-                {isPending && <Loader2 className="animate-spin" />}
+              <Button type="submit" form="edit-expense" loading={isPending}>
                 Editar
               </Button>
               <DrawerClose asChild>
@@ -136,8 +135,7 @@ export function EditExpenseDialog({ expense }: Props) {
               Cancelar
             </Button>
           </DialogClose>
-          <Button type="submit" form="edit-expense" disabled={isPending}>
-            {isPending && <Loader2 className="animate-spin" />}
+          <Button type="submit" form="edit-expense" loading={isPending}>
             Editar
           </Button>
         </DialogFooter>

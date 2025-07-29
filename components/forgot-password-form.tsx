@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AlertCircle, ArrowLeft, Loader2, Mail } from "lucide-react";
+import { AlertCircle, ArrowLeft, Mail } from "lucide-react";
 import Link from "next/link";
 
 import { resetPassword } from "@/lib/actions";
@@ -119,12 +119,11 @@ export function ForgotPasswordForm() {
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input type="email" required {...field} />
-                  </FormControl>  
+                  </FormControl>
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full" disabled={isPending}>
-              {isPending && <Loader2 className="animate-spin" />}
+            <Button type="submit" className="w-full" loading={isPending}>
               Recuperar palavra-passe
             </Button>
           </form>

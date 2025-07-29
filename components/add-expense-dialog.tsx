@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Loader2, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { toast } from "sonner";
 
 import { addExpense } from "@/lib/actions";
@@ -81,8 +81,7 @@ export function AddExpenseDialog() {
               />
             </div>
             <DrawerFooter>
-              <Button type="submit" form="add-expense" disabled={isPending}>
-                {isPending && <Loader2 className="animate-spin" />}
+              <Button type="submit" form="add-expense" loading={isPending}>
                 Adicionar
               </Button>
               <DrawerClose asChild>
@@ -131,8 +130,7 @@ export function AddExpenseDialog() {
               Cancelar
             </Button>
           </DialogClose>
-          <Button type="submit" form="add-expense" disabled={isPending}>
-            {isPending && <Loader2 className="animate-spin" />}
+          <Button type="submit" form="add-expense" loading={isPending}>
             Adicionar
           </Button>
         </DialogFooter>

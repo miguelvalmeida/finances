@@ -4,7 +4,7 @@ import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AlertCircle, Loader2 } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import Link from "next/link";
 
 import { login } from "@/lib/actions";
@@ -94,8 +94,7 @@ export function LoginForm() {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full" disabled={isPending}>
-              {isPending && <Loader2 className="animate-spin" />}
+            <Button type="submit" className="w-full" loading={isPending}>
               Iniciar sessão
             </Button>
           </form>

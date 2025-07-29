@@ -1,6 +1,6 @@
 "use client";
 
-import { AlertCircle, Loader2, User as UserIcon } from "lucide-react";
+import { AlertCircle, User as UserIcon } from "lucide-react";
 import z from "zod";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -75,7 +75,7 @@ export function EditProfileForm({ userData }: Props) {
               Informação do perfil
             </CardTitle>
             <CardDescription>
-              Altere o seu nome ou visualize o seu email associado à conta
+              Altere o seu nome ou visualize o seu email associado à conta.
             </CardDescription>
           </CardHeader>
           <CardContent className="grid gap-4">
@@ -120,10 +120,9 @@ export function EditProfileForm({ userData }: Props) {
           <CardFooter className="flex justify-end">
             <Button
               type="submit"
-              disabled={isPending || !form.formState.isDirty}
-              className="w-1/5"
+              disabled={!form.formState.isDirty}
+              loading={isPending}
             >
-              {isPending && <Loader2 className="animate-spin" />}
               Guardar
             </Button>
           </CardFooter>

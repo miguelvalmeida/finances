@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader2, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
@@ -58,8 +58,7 @@ export function DeleteExpenseAlert({ expense }: Props) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancelar</AlertDialogCancel>
-          <Button onClick={handleDelete} disabled={isPending}>
-            {isPending && <Loader2 className="animate-spin" />}
+          <Button onClick={handleDelete} loading={isPending}>
             Apagar
           </Button>
         </AlertDialogFooter>

@@ -44,7 +44,6 @@ export type Database = {
           amount: number;
           created_at: string;
           date: string;
-          description: string | null;
           id: number;
           name: string;
           recurrence: Database["public"]["Enums"]["expense-recurrence"];
@@ -56,7 +55,6 @@ export type Database = {
           amount: number;
           created_at?: string;
           date: string;
-          description?: string | null;
           id?: number;
           name: string;
           recurrence: Database["public"]["Enums"]["expense-recurrence"];
@@ -68,7 +66,6 @@ export type Database = {
           amount?: number;
           created_at?: string;
           date?: string;
-          description?: string | null;
           id?: number;
           name?: string;
           recurrence?: Database["public"]["Enums"]["expense-recurrence"];

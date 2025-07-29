@@ -1,6 +1,6 @@
 "use client";
 
-import { AlertCircle, Loader2, Lock } from "lucide-react";
+import { AlertCircle, Lock } from "lucide-react";
 import z from "zod";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -76,7 +76,7 @@ export function EditPasswordForm() {
               Palavra-passe & segurança
             </CardTitle>
             <CardDescription>
-              Atualiza a tua palavra-passe para manter a tua conta segura
+              Atualiza a tua palavra-passe para manter a tua conta segura.
             </CardDescription>
           </CardHeader>
           <CardContent className="grid gap-4">
@@ -121,9 +121,9 @@ export function EditPasswordForm() {
           <CardFooter className="flex justify-end">
             <Button
               type="submit"
-              disabled={isPending || !form.formState.isDirty}
+              disabled={!form.formState.isDirty}
+              loading={isPending}
             >
-              {isPending && <Loader2 className="animate-spin" />}
               Atualizar palavra-passe
             </Button>
           </CardFooter>
