@@ -1,15 +1,15 @@
 # Tostões 🏦
 
-Tostões is a simple web application to help you manage and track your personal finances. With Tostões, you can easily monitor your income, expenses, investments, and net worth, all in one place.
+Tostões is a simple web application to help you manage and track your personal finances. With Tostões, you can easily monitor your income, expenses, investments and net worth - all in one place.
 
 ## Features
 
 - **Dashboard**: Get a quick overview of your financial situation.
-- **Income Tracking**: Record and categorize your sources of income.
-- **Expense Management**: Add, edit, and filter your expenses by type, recurrence, and status.
+- **Income tracking**: Record and categorize your sources of income.
+- **Expense management**: Add, edit, and filter your expenses by type, recurrence, and status.
 - **Investments**: Keep track of your investments and their performance.
-- **Net Worth Calculation**: See your total net worth based on your assets and liabilities.
-- **Account Management**: Update your account details and preferences.
+- **Net worth calculation**: See your total net worth based on your assets and liabilities.
+- **Account management**: Update your account details and preferences.
 
 ## Stack
 
@@ -26,7 +26,6 @@ Tostões is built with the following technologies:
 To run Tostões locally, follow these steps:
 
 1. **Install dependencies**  
-   Using your preferred package manager, install the project dependencies:
 
    ```bash
    npm install
