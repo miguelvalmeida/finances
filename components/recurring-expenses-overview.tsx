@@ -7,12 +7,12 @@ import {
   CardDescription,
   CardFooter,
 } from "./ui/card";
+import { FormattedAmount } from "./formatted-amount";
 
 function getExpenseStats(expenses: Expense[] | null) {
   const stats = {
     monthly: { total: 0, count: 0 },
     annual: { total: 0, count: 0 },
-    "one-time": { total: 0, count: 0 },
   };
 
   if (!expenses) return stats;
@@ -36,34 +36,31 @@ const cards = [
     key: "annual",
     description: "Total despesas anuais",
   },
-  {
-    key: "one-time",
-    description: "Total despesas pontuais",
-  },
 ] as const;
 
 interface Props {
   expenses: Expense[] | null;
 }
 
-export function ExpensesOverview({ expenses }: Props) {
+export function RecurringExpensesOverview({ expenses }: Props) {
   const expensesOverview = getExpenseStats(expenses);
 
   return (
-    <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:grid-cols-3">
+    <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs md:grid-cols-2 lg:grid-cols-3">
       {cards.map(({ key, description }) => (
         <Card key={key}>
           <CardHeader>
             <CardDescription>{description}</CardDescription>
             <CardTitle className="text-2xl font-semibold tabular-nums md:text-3xl">
-              {new Intl.NumberFormat("pt-PT", {
-                style: "currency",
-                currency: "EUR",
-              }).format(expensesOverview[key].total)}
+              <FormattedAmount amount={expensesOverview[key].total} />
             </CardTitle>
           </CardHeader>
           <CardFooter className="text-sm text-muted-foreground">
-            {expensesOverview[key].count} despesas ativas
+            {`${expensesOverview[key].count} ${
+              expensesOverview[key].count === 1
+                ? "despesa ativa"
+                : "despesas ativas"
+            }`}
           </CardFooter>
         </Card>
       ))}

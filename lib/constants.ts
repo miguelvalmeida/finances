@@ -56,3 +56,19 @@ export const EXPENSE_STATUSES = [
   "pending",
   "cancelled",
 ] as const;
+
+export const RECURRING_EXPENSE_OPTIONS = ["monthly", "annual"] as const;
+
+export const RECURRING_EXPENSE_STATUSES = [
+  "active",
+  "inactive",
+  "cancelled",
+] as const;
+
+export const ONE_TIME_EXPENSE_OPTIONS = ["one_time"] as const;
+
+export const ONE_TIME_EXPENSE_STATUSES = [
+  "paid",
+  "pending",
+  "cancelled",
+] as const;

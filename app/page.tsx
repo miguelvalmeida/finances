@@ -7,7 +7,7 @@ import { routes, BRAND_NAME } from "@/lib/constants";
 export default function Page() {
   return (
     <section className="flex min-h-screen flex-col items-center justify-center bg-background px-4 py-8 md:py-16 text-foreground">
-      <div className="mb-10 flex items-center gap-4 self-center">
+      <div className="mb-10 flex items-center gap-2 md:gap-4 self-center">
         <div className="bg-primary text-primary-foreground flex size-14 md:size-20 items-center justify-center rounded-2xl">
           <PiggyBank className="size-8 md:size-12" />
         </div>

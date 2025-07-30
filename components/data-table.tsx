@@ -15,6 +15,8 @@ import {
 } from "@tanstack/react-table";
 import { useState } from "react";
 
+import type { ExpenseType } from "@/lib/types";
+
 import {
   Table,
   TableBody,
@@ -27,11 +29,13 @@ import { DataTableToolbar } from "./data-table-toolbar";
 import { DataTablePagination } from "./data-table-pagination";
 
 interface DataTableProps<TData, TValue> {
+  expenseType: ExpenseType;
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
 export function DataTable<TData, TValue>({
+  expenseType,
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -47,7 +51,7 @@ export function DataTable<TData, TValue>({
     },
     initialState: {
       pagination: {
-        pageSize: 15,
+        pageSize: 10,
       },
     },
     onSortingChange: setSorting,
@@ -62,7 +66,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="grid gap-4">
-      <DataTableToolbar table={table} />
+      <DataTableToolbar table={table} expenseType={expenseType} />
       <div className="overflow-hidden rounded-md border">
         <Table>
           <TableHeader className="bg-muted">
@@ -106,7 +110,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  Sem resultados
+                  Nenhuma despesa encontrada
                 </TableCell>
               </TableRow>
             )}

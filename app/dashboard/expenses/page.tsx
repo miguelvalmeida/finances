@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
 
 import { BRAND_NAME, routes } from "@/lib/constants";
-import { ExpensesOverview } from "@/components/expenses-overview";
+import { RecurringExpensesOverview } from "@/components/recurring-expenses-overview";
 import { getExpenses } from "@/lib/data";
 import { DataTable } from "@/components/data-table";
-import { expenseColumns } from "@/components/expense-columns";
+import {
+  oneTimeExpenseColumns,
+  recurringExpenseColumns,
+} from "@/components/expense-columns";
+import { OneTimeExpensesOverview } from "@/components/one-time-expenses-overview";
+import { OneTimeExpensesLinearChart } from "@/components/one-time-expenses-linear-chart";
 
 export const metadata: Metadata = {
   title: `${BRAND_NAME} | ${routes.expenses.name}`,
@@ -15,10 +20,34 @@ export const metadata: Metadata = {
 export default async function ExpensesPage() {
   const expenses = await getExpenses();
 
+  const recurringExpenses =
+    expenses?.filter((expense) => expense.recurrence !== "one-time") ?? [];
+  const oneTimeExpenses =
+    expenses?.filter((expense) => expense.recurrence === "one-time") ?? [];
+
   return (
     <div className="grid gap-4 md:gap-6">
-      <ExpensesOverview expenses={expenses} />
-      <DataTable columns={expenseColumns} data={expenses ?? []} />
+      <h2 className="text-2xl md:text-3xl tracking-tight font-bold flex items-center gap-2">
+        <span>🔁</span>
+        Despesas recurrentes
+      </h2>
+      <RecurringExpensesOverview expenses={recurringExpenses} />
+      <DataTable
+        expenseType="recurring"
+        columns={recurringExpenseColumns}
+        data={recurringExpenses}
+      />
+      <h2 className="text-2xl md:text-3xl tracking-tight font-bold flex items-center gap-2">
+        <span>💸</span>
+        Despesas pontuais
+      </h2>
+      <OneTimeExpensesOverview expenses={oneTimeExpenses} />
+      <OneTimeExpensesLinearChart expenses={oneTimeExpenses} />
+      <DataTable
+        expenseType="one-time"
+        columns={oneTimeExpenseColumns}
+        data={oneTimeExpenses}
+      />
     </div>
   );
 }

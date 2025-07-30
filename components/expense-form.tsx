@@ -6,8 +6,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 
-import { EXPENSE_RECURRENCES, EXPENSE_STATUSES } from "@/lib/constants";
+import {
+  EXPENSE_RECURRENCES,
+  EXPENSE_STATUSES,
+  ONE_TIME_EXPENSE_STATUSES,
+  RECURRING_EXPENSE_OPTIONS,
+  RECURRING_EXPENSE_STATUSES,
+} from "@/lib/constants";
 import { formatExpenseRecurrence, formatExpenseStatus } from "@/lib/utils";
+import type { ExpenseType } from "@/lib/types";
 
 import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form";
 import { Input } from "./ui/input";
@@ -31,7 +38,7 @@ const formSchema = z.object({
       const num = parseFloat(val);
       return !isNaN(num) && num > 0;
     }),
-  date: z.date(),
+  date: z.date().optional(),
   status: z.enum(EXPENSE_STATUSES),
   recurrence: z.enum(EXPENSE_RECURRENCES),
 });
@@ -40,11 +47,12 @@ export type ExpenseFormData = z.infer<typeof formSchema>;
 
 interface Props {
   variant: "add" | "edit";
+  type: ExpenseType;
   defaultValues: ExpenseFormData;
   onSubmit: (data: ExpenseFormData) => void;
 }
 
-export function ExpenseForm({ variant, defaultValues, onSubmit }: Props) {
+export function ExpenseForm({ variant, type, defaultValues, onSubmit }: Props) {
   const form = useForm<ExpenseFormData>({
     resolver: zodResolver(formSchema),
     defaultValues,
@@ -91,6 +99,7 @@ export function ExpenseForm({ variant, defaultValues, onSubmit }: Props) {
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
+                  disabled={type === "one-time"}
                 >
                   <FormControl>
                     <SelectTrigger className="w-full">
@@ -98,11 +107,17 @@ export function ExpenseForm({ variant, defaultValues, onSubmit }: Props) {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {EXPENSE_RECURRENCES.map((recurrence) => (
-                      <SelectItem key={recurrence} value={recurrence}>
-                        {formatExpenseRecurrence(recurrence)}
+                    {type === "recurring" ? (
+                      RECURRING_EXPENSE_OPTIONS.map((recurrence) => (
+                        <SelectItem key={recurrence} value={recurrence}>
+                          {formatExpenseRecurrence(recurrence)}
+                        </SelectItem>
+                      ))
+                    ) : (
+                      <SelectItem value="one-time">
+                        {formatExpenseRecurrence("one-time")}
                       </SelectItem>
-                    ))}
+                    )}
                   </SelectContent>
                 </Select>
               </FormItem>
@@ -110,40 +125,42 @@ export function ExpenseForm({ variant, defaultValues, onSubmit }: Props) {
           />
         </div>
         <div className="grid md:grid-cols-2 gap-4">
-          <FormField
-            control={form.control}
-            name="date"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Data</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button variant="outline" className="font-normal">
-                        {field.value ? (
-                          format(field.value, "dd/MM/yyyy")
-                        ) : (
-                          <span>Escolhe uma data</span>
-                        )}
-                        <CalendarIcon
-                          size={16}
-                          className="ml-auto opacity-50"
-                        />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                      captionLayout="dropdown"
-                    />
-                  </PopoverContent>
-                </Popover>
-              </FormItem>
-            )}
-          />
+          {type === "one-time" && (
+            <FormField
+              control={form.control}
+              name="date"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Data</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button variant="outline" className="font-normal">
+                          {field.value ? (
+                            format(field.value, "dd/MM/yyyy")
+                          ) : (
+                            <span>Escolhe uma data</span>
+                          )}
+                          <CalendarIcon
+                            size={16}
+                            className="ml-auto opacity-50"
+                          />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        captionLayout="dropdown"
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </FormItem>
+              )}
+            />
+          )}
           <FormField
             control={form.control}
             name="status"
@@ -160,7 +177,10 @@ export function ExpenseForm({ variant, defaultValues, onSubmit }: Props) {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {EXPENSE_STATUSES.map((status) => (
+                    {(type === "recurring"
+                      ? RECURRING_EXPENSE_STATUSES
+                      : ONE_TIME_EXPENSE_STATUSES
+                    ).map((status) => (
                       <SelectItem key={status} value={status}>
                         {formatExpenseStatus(status)}
                       </SelectItem>

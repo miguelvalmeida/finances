@@ -6,6 +6,7 @@ import { toast } from "sonner";
 
 import { addExpense } from "@/lib/actions";
 import { useIsMobile } from "@/hooks/use-media-query";
+import type { ExpenseType } from "@/lib/types";
 
 import {
   Dialog,
@@ -30,7 +31,11 @@ import {
 } from "./ui/drawer";
 import { ExpenseForm, type ExpenseFormData } from "./expense-form";
 
-export function AddExpenseDialog() {
+interface Props {
+  type: ExpenseType;
+}
+
+export function AddExpenseDialog({ type }: Props) {
   const [isPending, startTransition] = useTransition();
   const [isOpen, setIsOpen] = useState(false);
   const isMobile = useIsMobile();
@@ -38,9 +43,9 @@ export function AddExpenseDialog() {
   const formDefaultValues: ExpenseFormData = {
     name: "",
     amount: "",
-    date: new Date(),
-    status: "active",
-    recurrence: "monthly",
+    date: type === "recurring" ? undefined : new Date(),
+    status: type === "recurring" ? "active" : "paid",
+    recurrence: type === "recurring" ? "monthly" : "one-time",
   };
 
   const handleSubmit = async (data: ExpenseFormData) => {
@@ -76,6 +81,7 @@ export function AddExpenseDialog() {
             <div className="p-4">
               <ExpenseForm
                 variant="add"
+                type={type}
                 defaultValues={formDefaultValues}
                 onSubmit={handleSubmit}
               />
@@ -117,6 +123,7 @@ export function AddExpenseDialog() {
         </DialogHeader>
         <ExpenseForm
           variant="add"
+          type={type}
           defaultValues={formDefaultValues}
           onSubmit={handleSubmit}
         />

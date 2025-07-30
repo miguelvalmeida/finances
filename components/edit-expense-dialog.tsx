@@ -43,7 +43,7 @@ export function EditExpenseDialog({ expense }: Props) {
   const formDefaultValues: ExpenseFormData = {
     name: expense.name,
     amount: String(expense.amount),
-    date: new Date(expense.date),
+    date: expense.date ? new Date(expense.date) : undefined,
     status: expense.status,
     recurrence: expense.recurrence,
   };
@@ -60,6 +60,9 @@ export function EditExpenseDialog({ expense }: Props) {
       }
     });
   };
+
+  const expenseType =
+    expense.recurrence === "one-time" ? "one-time" : "recurring";
 
   if (isMobile) {
     return (
@@ -81,6 +84,7 @@ export function EditExpenseDialog({ expense }: Props) {
             <div className="p-4">
               <ExpenseForm
                 variant="edit"
+                type={expenseType}
                 defaultValues={formDefaultValues}
                 onSubmit={handleSubmit}
               />
@@ -122,6 +126,7 @@ export function EditExpenseDialog({ expense }: Props) {
         </DialogHeader>
         <ExpenseForm
           variant="edit"
+          type={expenseType}
           defaultValues={formDefaultValues}
           onSubmit={handleSubmit}
         />

@@ -43,7 +43,7 @@ export type Database = {
         Row: {
           amount: number;
           created_at: string;
-          date: string;
+          date: string | null;
           id: number;
           name: string;
           recurrence: Database["public"]["Enums"]["expense-recurrence"];
@@ -54,7 +54,7 @@ export type Database = {
         Insert: {
           amount: number;
           created_at?: string;
-          date: string;
+          date?: string | null;
           id?: number;
           name: string;
           recurrence: Database["public"]["Enums"]["expense-recurrence"];
@@ -65,7 +65,7 @@ export type Database = {
         Update: {
           amount?: number;
           created_at?: string;
-          date?: string;
+          date?: string | null;
           id?: number;
           name?: string;
           recurrence?: Database["public"]["Enums"]["expense-recurrence"];
