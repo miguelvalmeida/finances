@@ -37,10 +37,6 @@ export const routes = {
     name: "Património",
     url: "/dashboard/net-worth",
   },
-  investments: {
-    name: "Investimentos",
-    url: "/dashboard/investments",
-  },
   account: {
     name: "Conta",
     url: "/dashboard/account",
@@ -65,10 +61,39 @@ export const RECURRING_EXPENSE_STATUSES = [
   "cancelled",
 ] as const;
 
-export const ONE_TIME_EXPENSE_OPTIONS = ["one_time"] as const;
-
 export const ONE_TIME_EXPENSE_STATUSES = [
   "paid",
   "pending",
   "cancelled",
 ] as const;
+
+export const INCOME_CATEGORIES = [
+  "salary",
+  "freelance",
+  "bonus",
+  "investment",
+  "gift",
+  "rental",
+  "sale",
+  "grant",
+  "other",
+] as const;
+
+export const INCOME_STATUSES = ["received", "pending"] as const;
+
+export const INCOME_TYPES = ["recurring", "one-time"] as const;
+
+export const CHART_MONTH_NAMES = [
+  "Jan",
+  "Fev",
+  "Mar",
+  "Abr",
+  "Mai",
+  "Jun",
+  "Jul",
+  "Ago",
+  "Set",
+  "Out",
+  "Nov",
+  "Dez",
+];

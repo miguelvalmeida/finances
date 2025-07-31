@@ -8,7 +8,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Separator } from "./ui/separator";
 import { Checkbox } from "./ui/checkbox";
 
-interface DataTableFacetedFilterProps<TData, TValue> {
+interface Props<TData, TValue> {
   column?: Column<TData, TValue>;
   title?: string;
   options: {
@@ -22,7 +22,7 @@ export function DataTableFacetedFilter<TData, TValue>({
   column,
   title,
   options,
-}: DataTableFacetedFilterProps<TData, TValue>) {
+}: Props<TData, TValue>) {
   const facets = column?.getFacetedUniqueValues();
   const selectedValues = new Set(column?.getFilterValue() as string[]);
 

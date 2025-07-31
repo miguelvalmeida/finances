@@ -2,7 +2,13 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import type { AuthError } from "@supabase/supabase-js";
 
-import type { ExpenseRecurrence, ExpenseStatus } from "./types";
+import type {
+  ExpenseRecurrence,
+  ExpenseStatus,
+  IncomeCategory,
+  IncomeStatus,
+  IncomeType,
+} from "./types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -60,5 +66,52 @@ export function formatExpenseStatus(status: ExpenseStatus) {
       return "Pago";
     default:
       return status;
+  }
+}
+
+export function formatIncomeStatus(status: IncomeStatus) {
+  switch (status) {
+    case "received":
+      return "Recebido";
+    case "pending":
+      return "Pendente";
+    default:
+      return status;
+  }
+}
+
+export function formatIncomeCategory(category: IncomeCategory) {
+  switch (category) {
+    case "salary":
+      return "Salário";
+    case "freelance":
+      return "Freelance";
+    case "bonus":
+      return "Bónus";
+    case "investment":
+      return "Investimento";
+    case "gift":
+      return "Presente";
+    case "rental":
+      return "Renda";
+    case "sale":
+      return "Venda";
+    case "grant":
+      return "Subsídio";
+    case "other":
+      return "Outro";
+    default:
+      return category;
+  }
+}
+
+export function formatIncomeType(type: IncomeType) {
+  switch (type) {
+    case "one-time":
+      return "Pontual";
+    case "recurring":
+      return "Recorrente";
+    default:
+      return type;
   }
 }

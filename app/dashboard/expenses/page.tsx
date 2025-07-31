@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { BRAND_NAME, routes } from "@/lib/constants";
 import { RecurringExpensesOverview } from "@/components/recurring-expenses-overview";
 import { getExpenses } from "@/lib/data";
-import { DataTable } from "@/components/data-table";
+import { ExpenseTable } from "@/components/expense-table";
 import {
   oneTimeExpenseColumns,
   recurringExpenseColumns,
@@ -32,7 +32,7 @@ export default async function ExpensesPage() {
         Despesas recurrentes
       </h2>
       <RecurringExpensesOverview expenses={recurringExpenses} />
-      <DataTable
+      <ExpenseTable
         expenseType="recurring"
         columns={recurringExpenseColumns}
         data={recurringExpenses}
@@ -43,7 +43,7 @@ export default async function ExpensesPage() {
       </h2>
       <OneTimeExpensesOverview expenses={oneTimeExpenses} />
       <OneTimeExpensesLinearChart expenses={oneTimeExpenses} />
-      <DataTable
+      <ExpenseTable
         expenseType="one-time"
         columns={oneTimeExpenseColumns}
         data={oneTimeExpenses}

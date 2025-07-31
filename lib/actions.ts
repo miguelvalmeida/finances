@@ -7,7 +7,13 @@ import type { Provider } from "@supabase/supabase-js";
 import { createClient } from "./supabase/server";
 import { routes } from "./constants";
 import { getAuthErrorMessage } from "./utils";
-import type { ExpenseRecurrence, ExpenseStatus } from "./types";
+import type {
+  ExpenseRecurrence,
+  ExpenseStatus,
+  IncomeCategory,
+  IncomeStatus,
+  IncomeType,
+} from "./types";
 
 export async function login(email: string, password: string) {
   const supabase = await createClient();
@@ -203,9 +209,87 @@ export async function deleteExpense(id: number) {
 
   if (error) {
     return {
-      error: "Ocorreu um erro ao apagar a despesa. Tenta novamente.",
+      error: "Ocorreu um erro ao apagar esta despesa. Tenta novamente.",
     };
   }
 
   revalidatePath(routes.expenses.url);
+}
+
+type IncomeFormData = {
+  name: string;
+  amount: string;
+  category: IncomeCategory;
+  type: IncomeType;
+  date: Date;
+  status: IncomeStatus;
+};
+
+export async function addIncome(income: IncomeFormData) {
+  const supabase = await createClient();
+
+  const userId = (await supabase.auth.getUser()).data.user?.id;
+
+  const { error } = await supabase
+    .from("income")
+    .insert([
+      {
+        user_id: userId!,
+        name: income.name,
+        amount: Number(income.amount),
+        category: income.category,
+        type: income.type,
+        date: income.date.toISOString(),
+        status: income.status,
+      },
+    ])
+    .select();
+
+  if (error) {
+    return {
+      error: "Ocorreu um erro ao adicionar o rendimento. Tenta novamente.",
+    };
+  }
+
+  revalidatePath(routes.income.url);
+}
+
+export async function editIncome(id: number, income: IncomeFormData) {
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .from("income")
+    .update({
+      name: income.name,
+      amount: Number(income.amount),
+      category: income.category,
+      type: income.type,
+      date: income.date.toISOString(),
+      status: income.status,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", id)
+    .select();
+
+  if (error) {
+    return {
+      error: "Ocorreu um erro ao editar o rendimento. Tenta novamente.",
+    };
+  }
+
+  revalidatePath(routes.income.url);
+}
+
+export async function deleteIncome(id: number) {
+  const supabase = await createClient();
+
+  const { error } = await supabase.from("income").delete().eq("id", id);
+
+  if (error) {
+    return {
+      error: "Ocorreu um erro ao apagar o rendimento. Tenta novamente.",
+    };
+  }
+
+  revalidatePath(routes.income.url);
 }

@@ -9,13 +9,11 @@ import {
 } from "./ui/card";
 import { FormattedAmount } from "./formatted-amount";
 
-function getExpenseStats(expenses: Expense[] | null) {
+function getExpenseStats(expenses: Expense[]) {
   const stats = {
     monthly: { total: 0, count: 0 },
     annual: { total: 0, count: 0 },
   };
-
-  if (!expenses) return stats;
 
   for (const expense of expenses) {
     if (expense.recurrence in stats && expense.status === "active") {
@@ -39,7 +37,7 @@ const cards = [
 ] as const;
 
 interface Props {
-  expenses: Expense[] | null;
+  expenses: Expense[];
 }
 
 export function RecurringExpensesOverview({ expenses }: Props) {
@@ -64,6 +62,22 @@ export function RecurringExpensesOverview({ expenses }: Props) {
           </CardFooter>
         </Card>
       ))}
+      <Card>
+        <CardHeader>
+          <CardDescription>Total gasto anualmente</CardDescription>
+          <CardTitle className="text-2xl font-semibold tabular-nums md:text-3xl">
+            <FormattedAmount
+              amount={
+                expensesOverview.annual.total +
+                expensesOverview.monthly.total * 12
+              }
+            />
+          </CardTitle>
+        </CardHeader>
+        <CardFooter className="text-sm text-muted-foreground">
+          Estimativa do total gasto em despesas recorrentes por ano
+        </CardFooter>
+      </Card>
     </div>
   );
 }

@@ -75,6 +75,45 @@ export type Database = {
         };
         Relationships: [];
       };
+      income: {
+        Row: {
+          amount: number;
+          category: Database["public"]["Enums"]["income-categories"];
+          created_at: string;
+          date: string;
+          id: number;
+          name: string;
+          status: Database["public"]["Enums"]["income-status"];
+          type: Database["public"]["Enums"]["income-type"];
+          updated_at: string | null;
+          user_id: string;
+        };
+        Insert: {
+          amount: number;
+          category: Database["public"]["Enums"]["income-categories"];
+          created_at?: string;
+          date: string;
+          id?: number;
+          name: string;
+          status: Database["public"]["Enums"]["income-status"];
+          type: Database["public"]["Enums"]["income-type"];
+          updated_at?: string | null;
+          user_id?: string;
+        };
+        Update: {
+          amount?: number;
+          category?: Database["public"]["Enums"]["income-categories"];
+          created_at?: string;
+          date?: string;
+          id?: number;
+          name?: string;
+          status?: Database["public"]["Enums"]["income-status"];
+          type?: Database["public"]["Enums"]["income-type"];
+          updated_at?: string | null;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: {
       [_ in never]: never;
@@ -90,6 +129,18 @@ export type Database = {
         | "cancelled"
         | "inactive"
         | "active";
+      "income-categories":
+        | "salary"
+        | "freelance"
+        | "bonus"
+        | "investment"
+        | "gift"
+        | "rental"
+        | "sale"
+        | "grant"
+        | "other";
+      "income-status": "received" | "pending";
+      "income-type": "one-time" | "recurring";
     };
     CompositeTypes: {
       [_ in never]: never;
@@ -225,6 +276,19 @@ export const Constants = {
     Enums: {
       "expense-recurrence": ["one-time", "monthly", "annual"],
       "expense-status": ["pending", "paid", "cancelled", "inactive", "active"],
+      "income-categories": [
+        "salary",
+        "freelance",
+        "bonus",
+        "investment",
+        "gift",
+        "rental",
+        "sale",
+        "grant",
+        "other",
+      ],
+      "income-status": ["received", "pending"],
+      "income-type": ["one-time", "recurring"],
     },
   },
 } as const;

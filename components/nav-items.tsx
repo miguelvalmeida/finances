@@ -1,14 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import {
-  ArrowLeftRight,
-  ChartLine,
-  CreditCard,
-  Euro,
-  Home,
-  Wallet,
-} from "lucide-react";
+import { ArrowLeftRight, CreditCard, Euro, Home, Wallet } from "lucide-react";
 
 import {
   SidebarGroup,
@@ -45,11 +38,6 @@ const items = [
     name: routes.netWorth.name,
     url: routes.netWorth.url,
     icon: Wallet,
-  },
-  {
-    name: routes.investments.name,
-    url: routes.investments.url,
-    icon: ChartLine,
   },
 ];
 

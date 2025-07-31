@@ -4,50 +4,48 @@ import { Table } from "@tanstack/react-table";
 import { X } from "lucide-react";
 
 import {
-  ONE_TIME_EXPENSE_STATUSES,
-  RECURRING_EXPENSE_OPTIONS,
-  RECURRING_EXPENSE_STATUSES,
+  INCOME_CATEGORIES,
+  INCOME_STATUSES,
+  INCOME_TYPES,
 } from "@/lib/constants";
-import { formatExpenseRecurrence, formatExpenseStatus } from "@/lib/utils";
-import type { ExpenseType } from "@/lib/types";
+import {
+  formatIncomeCategory,
+  formatIncomeStatus,
+  formatIncomeType,
+} from "@/lib/utils";
 
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { AddExpenseDialog } from "./add-expense-dialog";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
+import { AddIncomeDialog } from "./add-income-dialog";
 
-const recurrences = RECURRING_EXPENSE_OPTIONS.map((recurrence) => ({
-  value: recurrence,
-  label: formatExpenseRecurrence(recurrence),
+const categories = INCOME_CATEGORIES.map((category) => ({
+  value: category,
+  label: formatIncomeCategory(category),
 }));
 
-function getStatuses(expenseType: ExpenseType) {
-  return (
-    expenseType === "recurring"
-      ? RECURRING_EXPENSE_STATUSES
-      : ONE_TIME_EXPENSE_STATUSES
-  ).map((status) => ({
-    value: status,
-    label: formatExpenseStatus(status),
-  }));
-}
+const types = INCOME_TYPES.map((type) => ({
+  value: type,
+  label: formatIncomeType(type),
+}));
 
-interface DataTableToolbarProps<TData> {
-  expenseType: ExpenseType;
+const statuses = INCOME_STATUSES.map((status) => ({
+  value: status,
+  label: formatIncomeStatus(status),
+}));
+
+interface Props<TData> {
   table: Table<TData>;
 }
 
-export function DataTableToolbar<TData>({
-  expenseType,
-  table,
-}: DataTableToolbarProps<TData>) {
+export function IncomeDataTableToolbar<TData>({ table }: Props<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
 
   return (
     <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
       <div className="flex flex-col gap-2 flex-1 lg:flex-row lg:items-center">
         <Input
-          placeholder="Filtrar despesas..."
+          placeholder="Filtrar rendimentos..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("name")?.setFilterValue(event.target.value)
@@ -55,18 +53,25 @@ export function DataTableToolbar<TData>({
           className="h-8 w-full lg:w-[250px]"
         />
         <div className="flex flex-wrap gap-2">
-          {expenseType === "recurring" && table.getColumn("recurrence") && (
+          {table.getColumn("category") && (
             <DataTableFacetedFilter
-              column={table.getColumn("recurrence")}
+              column={table.getColumn("category")}
+              title="Categoria"
+              options={categories}
+            />
+          )}
+          {table.getColumn("type") && (
+            <DataTableFacetedFilter
+              column={table.getColumn("type")}
               title="Tipo"
-              options={recurrences}
+              options={types}
             />
           )}
           {table.getColumn("status") && (
             <DataTableFacetedFilter
               column={table.getColumn("status")}
               title="Estado"
-              options={getStatuses(expenseType)}
+              options={statuses}
             />
           )}
           {isFiltered && (
@@ -81,7 +86,7 @@ export function DataTableToolbar<TData>({
           )}
         </div>
       </div>
-      <AddExpenseDialog type={expenseType} />
+      <AddIncomeDialog />
     </div>
   );
 }

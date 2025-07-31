@@ -15,8 +15,6 @@ import {
 } from "@tanstack/react-table";
 import { useState } from "react";
 
-import type { ExpenseType } from "@/lib/types";
-
 import {
   Table,
   TableBody,
@@ -25,20 +23,18 @@ import {
   TableHeader,
   TableRow,
 } from "./ui/table";
-import { DataTableToolbar } from "./data-table-toolbar";
 import { DataTablePagination } from "./data-table-pagination";
+import { IncomeDataTableToolbar } from "./income-data-table-toolbar";
 
-interface DataTableProps<TData, TValue> {
-  expenseType: ExpenseType;
+interface Props<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function DataTable<TData, TValue>({
-  expenseType,
+export function IncomeTable<TData, TValue>({
   columns,
   data,
-}: DataTableProps<TData, TValue>) {
+}: Props<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
@@ -51,7 +47,7 @@ export function DataTable<TData, TValue>({
     },
     initialState: {
       pagination: {
-        pageSize: 10,
+        pageSize: 15,
       },
     },
     onSortingChange: setSorting,
@@ -66,7 +62,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="grid gap-4">
-      <DataTableToolbar table={table} expenseType={expenseType} />
+      <IncomeDataTableToolbar table={table} />
       <div className="overflow-hidden rounded-md border">
         <Table>
           <TableHeader className="bg-muted">
@@ -110,7 +106,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  Nenhuma despesa encontrada
+                  Nenhum rendimento encontrado
                 </TableCell>
               </TableRow>
             )}

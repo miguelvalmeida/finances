@@ -20,7 +20,7 @@ export function DataTablePagination<TData>({
   return (
     <div className="flex justify-between items-center gap-4">
       <div className="text-muted-foreground text-sm">
-        {totalLength} {totalLength === 1 ? "despesa" : "despesas"} no total
+        {totalLength} {totalLength === 1 ? "item" : "itens"} no total
       </div>
       <div className="flex gap-4 md:gap-8 justify-end">
         <div className="flex w-fit items-center justify-center text-sm font-medium">
