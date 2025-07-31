@@ -29,10 +29,6 @@ export const routes = {
     name: "Despesas",
     url: "/dashboard/expenses",
   },
-  transactions: {
-    name: "Transações",
-    url: "/dashboard/transactions",
-  },
   netWorth: {
     name: "Património",
     url: "/dashboard/net-worth",

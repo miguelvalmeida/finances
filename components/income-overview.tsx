@@ -22,8 +22,10 @@ function getIncomeStats(income: Income[]) {
       oneTime.count += 1;
       oneTime.total += inc.amount;
     }
-    overall.count += 1;
-    overall.total += inc.amount;
+    if (inc.status === "received") {
+      overall.count += 1;
+      overall.total += inc.amount;
+    }
   }
 
   return { recurring, oneTime, overall };

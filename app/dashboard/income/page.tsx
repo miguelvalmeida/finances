@@ -11,8 +11,6 @@ export const metadata: Metadata = {
   title: `${BRAND_NAME} | ${routes.income.name}`,
 };
 
-// TODO: Add loading file
-
 export default async function IncomePage() {
   const income = (await getIncome()) ?? [];
 

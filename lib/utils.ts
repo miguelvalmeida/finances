@@ -3,6 +3,7 @@ import { twMerge } from "tailwind-merge";
 import type { AuthError } from "@supabase/supabase-js";
 
 import type {
+  BalanceType,
   ExpenseRecurrence,
   ExpenseStatus,
   IncomeCategory,
@@ -111,6 +112,17 @@ export function formatIncomeType(type: IncomeType) {
       return "Pontual";
     case "recurring":
       return "Recorrente";
+    default:
+      return type;
+  }
+}
+
+export function formatBalanceType(type: BalanceType) {
+  switch (type) {
+    case "asset":
+      return "Ativo";
+    case "liability":
+      return "Passivo";
     default:
       return type;
   }

@@ -39,6 +39,36 @@ export type Database = {
   };
   public: {
     Tables: {
+      assets_and_liabilities: {
+        Row: {
+          created_at: string;
+          id: number;
+          name: string;
+          type: Database["public"]["Enums"]["balance-type"];
+          updated_at: string | null;
+          user_id: string;
+          value: number;
+        };
+        Insert: {
+          created_at?: string;
+          id?: number;
+          name: string;
+          type: Database["public"]["Enums"]["balance-type"];
+          updated_at?: string | null;
+          user_id: string;
+          value: number;
+        };
+        Update: {
+          created_at?: string;
+          id?: number;
+          name?: string;
+          type?: Database["public"]["Enums"]["balance-type"];
+          updated_at?: string | null;
+          user_id?: string;
+          value?: number;
+        };
+        Relationships: [];
+      };
       expenses: {
         Row: {
           amount: number;
@@ -122,6 +152,7 @@ export type Database = {
       [_ in never]: never;
     };
     Enums: {
+      "balance-type": "asset" | "liability";
       "expense-recurrence": "one-time" | "monthly" | "annual";
       "expense-status":
         | "pending"
@@ -274,6 +305,7 @@ export const Constants = {
   },
   public: {
     Enums: {
+      "balance-type": ["asset", "liability"],
       "expense-recurrence": ["one-time", "monthly", "annual"],
       "expense-status": ["pending", "paid", "cancelled", "inactive", "active"],
       "income-categories": [

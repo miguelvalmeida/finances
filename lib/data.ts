@@ -15,3 +15,11 @@ export async function getIncome() {
 
   return data;
 }
+
+export async function getBalance() {
+  const supabase = await createClient();
+
+  const { data } = await supabase.from("assets_and_liabilities").select("*");
+
+  return data;
+}

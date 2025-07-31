@@ -16,3 +16,8 @@ export type IncomeCategory = Database["public"]["Enums"]["income-categories"];
 export type IncomeStatus = Database["public"]["Enums"]["income-status"];
 
 export type IncomeType = Database["public"]["Enums"]["income-type"];
+
+export type Balance =
+  Database["public"]["Tables"]["assets_and_liabilities"]["Row"];
+
+export type BalanceType = Database["public"]["Enums"]["balance-type"];

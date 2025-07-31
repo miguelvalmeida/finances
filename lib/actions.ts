@@ -8,6 +8,7 @@ import { createClient } from "./supabase/server";
 import { routes } from "./constants";
 import { getAuthErrorMessage } from "./utils";
 import type {
+  BalanceType,
   ExpenseRecurrence,
   ExpenseStatus,
   IncomeCategory,
@@ -292,4 +293,80 @@ export async function deleteIncome(id: number) {
   }
 
   revalidatePath(routes.income.url);
+}
+
+type BalanceFormData = {
+  name: string;
+  type: BalanceType;
+  value: string;
+};
+
+export async function addBalance(balance: BalanceFormData) {
+  const supabase = await createClient();
+
+  const userId = (await supabase.auth.getUser()).data.user?.id;
+
+  const { error } = await supabase
+    .from("assets_and_liabilities")
+    .insert([
+      {
+        user_id: userId!,
+        name: balance.name,
+        value: Number(balance.value),
+        type: balance.type,
+      },
+    ])
+    .select();
+
+  if (error) {
+    return {
+      error: `Ocorreu um erro ao adicionar o ${
+        balance.type === "asset" ? "ativo" : "passivo"
+      }. Tenta novamente.`,
+    };
+  }
+
+  revalidatePath(routes.netWorth.url);
+}
+
+export async function editBalance(id: number, balance: BalanceFormData) {
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .from("assets_and_liabilities")
+    .update({
+      name: balance.name,
+      value: Number(balance.value),
+      type: balance.type,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", id)
+    .select();
+
+  if (error) {
+    return {
+      error: `Ocorreu um erro ao editar o ${
+        balance.type === "asset" ? "ativo" : "passivo"
+      }. Tenta novamente.`,
+    };
+  }
+
+  revalidatePath(routes.netWorth.url);
+}
+
+export async function deleteBalance(id: number) {
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .from("assets_and_liabilities")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    return {
+      error: "Ocorreu um erro ao apagar o ativo/passivo. Tenta novamente.",
+    };
+  }
+
+  revalidatePath(routes.netWorth.url);
 }
