@@ -28,7 +28,7 @@ export default async function ExpensesPage() {
       <div className="grid gap-2">
         <h2 className="text-2xl md:text-3xl tracking-tight font-bold flex items-center gap-2">
           <span>🔁</span>
-          Despesas recurrentes
+          Despesas recorrentes
         </h2>
         <p className="text-muted-foreground">
           Despesas que se repetem regularmente, como assinaturas, contas mensais
