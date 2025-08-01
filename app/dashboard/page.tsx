@@ -1,8 +1,22 @@
-export default function DashboardPage() {
+import { DashboardBarChart } from "@/components/dashboard-bar-chart";
+import { DashboardOverview } from "@/components/dashboard-overview";
+import { getExpenses, getIncome, getBalance } from "@/lib/data";
+
+export default async function DashboardPage() {
+  const [expenses, income, balance] = await Promise.all([
+    getExpenses(),
+    getIncome(),
+    getBalance(),
+  ]);
+
   return (
-    <div className="flex flex-col items-center justify-center h-full">
-      <span className="text-7xl mb-2">🏗️</span>
-      <span className="text-3xl font-semibold">WIP</span>
+    <div className="grid gap-4 md:gap-6">
+      <DashboardOverview
+        expenses={expenses ?? []}
+        income={income ?? []}
+        balance={balance ?? []}
+      />
+      <DashboardBarChart income={income ?? []} expenses={expenses ?? []} />
     </div>
   );
 }
